@@ -3,12 +3,12 @@ session_start();
 
 include_once 'cfgdb.php';
 
-if (!isset($_SESSION['nik'])) {
+if (!isset($_SESSION['nim'])) {
     header("Location: login");
     exit();
 }
 
-$userid = $_SESSION['nik'];
+$userid = $_SESSION['nim'];
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -87,11 +87,11 @@ for ($i = 1; $i <= $jumlah_hari; $i++) {
     // ambil nama bulan dalam bahasa Indonesia
     $nama_bulan = $nama_bulan_arr[intval($bulan) - 1];
 
-    // ambil data absen dari database berdasarkan tanggal dan nik
-    $query = "SELECT absen.id_absen, absen.nik, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan 
+    // ambil data absen dari database berdasarkan tanggal dan nim
+    $query = "SELECT absen.id_absen, absen.nim, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan 
     FROM absen 
     JOIN status_absen ON absen.id_status = status_absen.id_status 
-    WHERE nik = ? AND tanggal_absen = ?
+    WHERE nim = ? AND tanggal_absen = ?
     ORDER BY absen.id_absen DESC";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(1, $userid);

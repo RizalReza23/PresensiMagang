@@ -24,10 +24,10 @@ $nama_bulan_arr = array(
 $nama_hari = $nama_hari_arr[date('N', strtotime($tanggal))];
 $nama_bulan = $nama_bulan_arr[intval(date('m', strtotime($tanggal))) - 1];
 
-$query = "SELECT absen.id_absen, absen.nik, pengguna.nama, pengguna.foto_profil, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.foto_absen, absen.latlong 
+$query = "SELECT absen.id_absen, absen.nim, pengguna.nama, pengguna.foto_profil, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.foto_absen, absen.latlong 
       FROM absen 
       JOIN status_absen ON absen.id_status = status_absen.id_status
-      JOIN pengguna ON absen.nik = pengguna.nik
+      JOIN pengguna ON absen.nim = pengguna.nim
       WHERE tanggal_absen = :tanggal
       ORDER BY absen.jam_masuk DESC";
 $stmt = $conn->prepare($query);
@@ -39,7 +39,7 @@ $saat_ini = time();
 
 if (count($result) > 0) {
   foreach ($result as $data_absen) {
-    $nik = $data_absen['nik'];
+    $nim = $data_absen['nim'];
     $nama = $data_absen['nama'];
     $jam_masuk = $data_absen['jam_masuk'];
     $jam_keluar = $data_absen['jam_keluar'];

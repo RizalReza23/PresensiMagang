@@ -5,8 +5,8 @@ include_once 'main-admin.php';
 
 $userid = '';
 
-if (isset($_GET['nik'])) {
-    $userid = $_GET['nik'];
+if (isset($_GET['nim'])) {
+    $userid = $_GET['nim'];
 }
 
 if (isset($_GET['op'])) {
@@ -40,7 +40,7 @@ if ($op == 'hapus') {
     }
 }
 
-$stmt = $conn->prepare("SELECT pengguna.nama, penempatan.penempatan_nama FROM pengguna INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id WHERE nik = :userid");
+$stmt = $conn->prepare("SELECT pengguna.nama, penempatan.penempatan_nama FROM pengguna INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id WHERE nim = :userid");
 $stmt->bindParam(':userid', $userid);
 $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -126,7 +126,7 @@ if ($row) {
                 // buat array kosong untuk absen
                 $absen = array();
 
-                $stmt = $conn->prepare("SELECT tanggal_absen, nik, keterangan FROM absen WHERE YEAR(tanggal_absen) = :tahun AND MONTH(tanggal_absen) = :bulan");
+                $stmt = $conn->prepare("SELECT tanggal_absen, nim, keterangan FROM absen WHERE YEAR(tanggal_absen) = :tahun AND MONTH(tanggal_absen) = :bulan");
                 $stmt->bindParam(':tahun', $tahun);
                 $stmt->bindParam(':bulan', $bulan);
                 $stmt->execute();
@@ -135,7 +135,7 @@ if ($row) {
                 if ($stmt->rowCount() > 0) {
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                         $tanggal = date('j', strtotime($row['tanggal_absen']));
-                        $absen[$row['nik']][$tanggal] = $row['keterangan'];
+                        $absen[$row['nim']][$tanggal] = $row['keterangan'];
                     }
                 }
                 ?>
@@ -144,7 +144,7 @@ if ($row) {
                     <?php echo $nama_penempatan ?>
                 </h4>
                 <form method="get" action="">
-                    <input type="text" style="display:none" name="nik" value="<?php echo $userid; ?>">
+                    <input type="text" style="display:none" name="nim" value="<?php echo $userid; ?>">
                     <div class="form-group row mb-3">
                         <label for="tahun" class="col-sm-2 col-form-label">Tahun:</label>
                         <div class="col-sm-10">
@@ -169,7 +169,7 @@ if ($row) {
                     </div>
                     <button type="submit" class="btn btn-primary">Tampilkan</button>
                     <a class="btn btn-success"
-                        href="ekspor_rekap?nik=<?php echo $userid; ?>&tahun=<?php echo $tahun; ?>&bulan=<?php echo $bulan; ?>">Ekspor
+                        href="ekspor_rekap?nim=<?php echo $userid; ?>&tahun=<?php echo $tahun; ?>&bulan=<?php echo $bulan; ?>">Ekspor
                         EXCEL</a>
                 </form>
                 <br>
@@ -218,10 +218,10 @@ if ($row) {
                                 echo '<tr class="' . $bg_color . '">';
                                 echo '<td>' . $nama_hari . ', ' . str_pad($i, 2, '0', STR_PAD_LEFT) . ' ' . $nama_bulan . ' ' . $tahun . '</td>';
 
-                                $query = "SELECT absen.id_absen, absen.nik, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.logbook, absen.foto_absen, absen.latlong 
+                                $query = "SELECT absen.id_absen, absen.nim, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.logbook, absen.foto_absen, absen.latlong 
           FROM absen 
           JOIN status_absen ON absen.id_status = status_absen.id_status 
-          WHERE nik = :userid AND tanggal_absen = :tanggal
+          WHERE nim = :userid AND tanggal_absen = :tanggal
           ORDER BY absen.id_absen DESC";
                                 $tanggal_absen = $tahun . '-' . $bulan . '-' . str_pad($i, 2, '0', STR_PAD_LEFT);
                                 $stmt = $conn->prepare($query);
@@ -233,7 +233,7 @@ if ($row) {
                                     // jika data absen ditemukan
                                     $data_absen = $stmt->fetch(PDO::FETCH_ASSOC);
                                     $id = $data_absen['id_absen'];
-                                    $nik = $data_absen['nik'];
+                                    $nim = $data_absen['nim'];
                                     $jam_masuk = $data_absen['jam_masuk'];
                                     $jam_keluar = $data_absen['jam_keluar'];
                                     $status = $data_absen['nama_status'];
@@ -241,7 +241,7 @@ if ($row) {
                                     $keterangan = $data_absen['keterangan'];
                                     $fotoAbsen = $data_absen['foto_absen'];
                                     $latlong = $data_absen['latlong'];
-                                    $tombolHapus = "<button type='button' onclick='return confirmDelete(`$nik`,`$id`)' class='btn btn-danger btn-sm'>Hapus</button>";
+                                    $tombolHapus = "<button type='button' onclick='return confirmDelete(`$nim`,`$id`)' class='btn btn-danger btn-sm'>Hapus</button>";
                                 } else {
                                     // jika data absen tidak ditemukan
                                     $jam_masuk = '';
@@ -290,7 +290,7 @@ if ($row) {
                                     imageWidth: 300,
                                 });
                             }
-                            function confirmDelete(nik, id) {
+                            function confirmDelete(nim, id) {
                                 Swal.fire({
                                     title: "Konfirmasi",
                                     text: "Apakah Anda yakin ingin menghapus absensi ini?",
@@ -300,7 +300,7 @@ if ($row) {
                                     cancelButtonText: "Batal"
                                 }).then((result) => {
                                     if (result.isConfirmed) {
-                                        window.location.href = "?nik=" + nik + "&op=hapus&id=" + id;
+                                        window.location.href = "?nim=" + nim + "&op=hapus&id=" + id;
                                     }
                                 });
 

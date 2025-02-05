@@ -5,11 +5,11 @@ class Absensiswa extends Database
 	public function data_Absen($userid)
 	{
 		try {
-			$sqldef = "SELECT * FROM absen WHERE nik = :userid";
-			$sql = "SELECT absen.id_absen, absen.nik, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan 
+			$sqldef = "SELECT * FROM absen WHERE nim = :userid";
+			$sql = "SELECT absen.id_absen, absen.nim, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan 
                 FROM absen 
                 JOIN status_absen ON absen.id_status = status_absen.id_status 
-                WHERE absen.nik = :userid
+                WHERE absen.nim = :userid
                 ORDER BY absen.id_absen DESC";
 			$stmt = $this->koneksi->prepare($sql);
 			$stmt->bindParam(":userid", $userid);
@@ -23,7 +23,7 @@ class Absensiswa extends Database
 	public function cek_Absenmasuk($userid)
 	{
 		try {
-			$sql = "SELECT * FROM absen WHERE tanggal_absen = CURRENT_DATE() AND nik = :userid";
+			$sql = "SELECT * FROM absen WHERE tanggal_absen = CURRENT_DATE() AND nim = :userid";
 			$stmt = $this->koneksi->prepare($sql);
 			$stmt->bindParam(':userid', $userid);
 			if ($stmt->execute()) {
@@ -41,7 +41,7 @@ class Absensiswa extends Database
 	public function cek_Absenkeluar($userid)
 	{
 		try {
-			$sql = "SELECT * FROM absen WHERE tgl_keluar = CURRENT_DATE() AND nik = :userid";
+			$sql = "SELECT * FROM absen WHERE tgl_keluar = CURRENT_DATE() AND nim = :userid";
 			$stmt = $this->koneksi->prepare($sql);
 			$stmt->bindParam(':userid', $userid);
 			$stmt->execute();
@@ -58,7 +58,7 @@ class Absensiswa extends Database
 	public function get_idabsen($userid)
 	{
 		try {
-			$sql = "SELECT id_absen FROM absen WHERE tanggal_absen = CURRENT_DATE() AND nik = :userid";
+			$sql = "SELECT id_absen FROM absen WHERE tanggal_absen = CURRENT_DATE() AND nim = :userid";
 			$stmt = $this->koneksi->prepare($sql);
 			$stmt->bindParam(":userid", $userid);
 			$stmt->execute();
@@ -73,9 +73,9 @@ class Absensiswa extends Database
 	public function insert_Absenmasuk($userid, $id_status, $id_jadwal, $tanggal_absen, $jam_masuk, $keterangan, $file_foto, $latlong)
 	{
 		try {
-			$sql = "INSERT INTO absen(nik, id_status, id_jadwal, tanggal_absen, jam_masuk, keterangan, foto_absen, latlong) VALUES(:nik,:id_status, :id_jadwal, :tanggal_absen, :jam_masuk, :keterangan, :foto_absen, :latlong)";
+			$sql = "INSERT INTO absen(nim, id_status, id_jadwal, tanggal_absen, jam_masuk, keterangan, foto_absen, latlong) VALUES(:nim,:id_status, :id_jadwal, :tanggal_absen, :jam_masuk, :keterangan, :foto_absen, :latlong)";
 			$stmt = $this->koneksi->prepare($sql);
-			$stmt->bindParam(":nik", $userid);
+			$stmt->bindParam(":nim", $userid);
 			$stmt->bindParam(":id_status", $id_status);
 			$stmt->bindParam(":id_jadwal", $id_jadwal);
 			$stmt->bindParam(":tanggal_absen", $tanggal_absen);
@@ -107,7 +107,7 @@ class Absensiswa extends Database
 	public function update_Logbook($userid, $logbook_input)
 	{
 		try {
-			$sql = "UPDATE absen SET logbook = :logbook WHERE nik = :userid AND jam_keluar IS NULL";
+			$sql = "UPDATE absen SET logbook = :logbook WHERE nim = :userid AND jam_keluar IS NULL";
 			$stmt = $this->koneksi->prepare($sql);
 			$stmt->bindParam(':logbook', $logbook_input);
 			$stmt->bindParam(':userid', $userid);
@@ -130,7 +130,7 @@ class Absensiswa extends Database
 	public function cek_Logbook($userid)
 	{
 		try {
-			$sql = "SELECT logbook FROM absen WHERE nik = :userid AND jam_keluar IS NULL";
+			$sql = "SELECT logbook FROM absen WHERE nim = :userid AND jam_keluar IS NULL";
 			$stmt = $this->koneksi->prepare($sql);
 			$stmt->bindParam(':userid', $userid);
 			$stmt->execute();

@@ -19,7 +19,7 @@ if (isset($_POST['simpan'])) {
     $tmp_file = $_FILES['lampiran']['tmp_name'];
 
     // Cek apakah sudah absen hari ini
-    $stmt = $conn->prepare("SELECT * FROM absen WHERE nik=? AND tanggal_absen=?");
+    $stmt = $conn->prepare("SELECT * FROM absen WHERE nim=? AND tanggal_absen=?");
     $stmt->bindParam(1, $userid);
     $stmt->bindParam(2, $tanggal_absen);
     $stmt->execute();
@@ -65,7 +65,7 @@ if (isset($_POST['simpan'])) {
         }
 
         // Insert data absensi
-        $stmt = $conn->prepare("INSERT INTO absen (nik, tanggal_absen, jam_masuk, id_status, tgl_keluar, keterangan, foto_absen, logbook) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO absen (nim, tanggal_absen, jam_masuk, id_status, tgl_keluar, keterangan, foto_absen, logbook) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $userid);
         $stmt->bindParam(2, $tanggal_absen);
         $stmt->bindParam(3, $jam_masuk);
@@ -104,7 +104,7 @@ $sql = "
     FROM pengguna
     INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id
     INNER JOIN pengaturan ON pengguna.penempatan_id = pengaturan.penempatan_id
-    WHERE pengguna.nik = ?
+    WHERE pengguna.nim = ?
 ";
 
 $stmt = $conn->prepare($sql);
@@ -158,7 +158,7 @@ $jam_pulang = $jam_pulang . " WIB"; // menambahkan "WIB" pada akhir string
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil | Pemagang Disdukcapil</title>
+    <title>Presensi | Mahasiswa PKL</title>
     <style>
         .mx-auto {
             max-width: 800px
@@ -245,8 +245,8 @@ $jam_pulang = $jam_pulang . " WIB"; // menambahkan "WIB" pada akhir string
                                     </h4>
                                 </span>
                                 <p class="opacity" style="margin-bottom:0">
-                                    NIK
-                                    <?php echo $nik ?> -
+                                    NIM
+                                    <?php echo $nim ?> -
                                     <?php echo $jabatan ?> -
                                     <?php echo $penempatan ?>
                                 </p>
@@ -278,7 +278,7 @@ $jam_pulang = $jam_pulang . " WIB"; // menambahkan "WIB" pada akhir string
                 </div>
                 <div class="mb-3 fs-small">
                     <div class="d-block">
-                        <span>Jarak Anda dari Disdukcapil: <b id="our-distance">belum terdeteksi</b> <b>(Maksimal:
+                        <span>Jarak Anda dari Puskesmas: <b id="our-distance">belum terdeteksi</b> <b>(Maksimal:
                                 <?php echo $jarakIdeal ?> m)
                             </b></span>
                     </div>
@@ -373,7 +373,7 @@ $jam_pulang = $jam_pulang . " WIB"; // menambahkan "WIB" pada akhir string
                                     <i class="bi bi-calendar2-minus"></i>
                                 </div>
                                 <div class="button-text">
-                                    <div class="button-title">ABSEN KELUAR</div>
+                                    <div class="button-title">ABSEN PULANG</div>
                                     <div class="button-alt"><svg class='line' xmlns='http://www.w3.org/2000/svg'
                                             viewBox='0 0 24 24'>
                                             <path

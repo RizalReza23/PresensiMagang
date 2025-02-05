@@ -7,7 +7,7 @@ include_once 'cfgall.php';
 <html>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dashboard | Disdukcapil Kota Semarang</title>
+<title>Dashboard | Puskesmas Tlogosari Kulon</title>
 <style>
 	.mx-auto {
 		max-width: 800px !important
@@ -41,9 +41,9 @@ include_once 'cfgall.php';
 									</h4>
 								</span>
 								<p class="opacity" style="margin-bottom:0">
-									NIK
-									<?php echo $nik ?> -
-									<?php echo $penempatan ?>
+									NIM
+									<?php echo $nim ?> -
+									<?php echo $universitas ?>
 								</p>
 							</span>
 						</label>
@@ -103,7 +103,7 @@ include_once 'cfgall.php';
 			$query = "SELECT absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, status_absen.nama_status, absen.logbook, absen.keterangan
           FROM absen 
           JOIN status_absen ON absen.id_status = status_absen.id_status 
-          WHERE absen.nik = ? AND absen.tanggal_absen >= ?
+          WHERE absen.nim = ? AND absen.tanggal_absen >= ?
           ORDER BY absen.tanggal_absen DESC";
 
 			$stmt = $conn->prepare($query);
@@ -121,7 +121,7 @@ include_once 'cfgall.php';
 								<tr>
 									<th>Tanggal</th>
 									<th>Masuk</th>
-									<th>Keluar</th>
+									<th>Pulang</th>
 									<th>Status</th>
 									<th>Logbook</th>
 									<th>Keterangan</th>

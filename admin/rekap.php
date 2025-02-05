@@ -3,7 +3,7 @@ session_start();
 
 include_once 'main-admin.php';
 
-$nik = "";
+$nim = "";
 $password = "";
 $nama = "";
 $guru = "";
@@ -53,7 +53,7 @@ $error = "";
                     </thead>
                     <tbody>
                         <?php
-                        $sql = "SELECT pengguna.id, pengguna.nik, pengguna.nama, penempatan.penempatan_nama
+                        $sql = "SELECT pengguna.id, pengguna.nim, pengguna.nama, penempatan.penempatan_nama
                         FROM pengguna
                         INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id
                         ORDER BY pengguna.id DESC";
@@ -62,7 +62,7 @@ $error = "";
                         $urut = 1;
                         foreach ($results as $row) {
                             $id = $row['id'];
-                            $nik = $row['nik'];
+                            $nim = $row['nim'];
                             $nama = $row['nama'];
                             $penempatan = $row['penempatan_nama'];
 
@@ -72,7 +72,7 @@ $error = "";
                                     <?php echo $urut++ ?>
                                 </th>
                                 <td scope="row">
-                                    <?php echo $nik ?>
+                                    <?php echo $nim ?>
                                 </td>
                                 <td scope="row">
                                     <?php echo $nama ?>
@@ -81,9 +81,9 @@ $error = "";
                                     <?php echo $penempatan ?>
                                 </td>
                                 <td scope="row">
-                                    <a href="hasil_rekap?nik=<?php echo $nik ?>"><button type="button"
+                                    <a href="hasil_rekap?nim=<?php echo $nim ?>"><button type="button"
                                             class="btn btn-warning">Lihat</button></a>
-                                    <a class="btn btn-success" href="ekspor_rekap?nik=<?php echo $nik; ?>">Ekspor</a>
+                                    <a class="btn btn-success" href="ekspor_rekap?nim=<?php echo $nim; ?>">Ekspor</a>
                                 </td>
                             </tr>
                             <?php

@@ -42,7 +42,7 @@ if (isset($_POST['login'])) {
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
 
-  <title>Admin Disdukcapil Kota Semarang</title>
+  <title>Admin Puskesmas Tlogosari Kulon</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
@@ -62,7 +62,7 @@ if (isset($_POST['login'])) {
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('../img/1.jpg');
+      background-image: url('../img/puskesmas.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;

@@ -8,7 +8,7 @@ function getJarakIdeal($conn, $userid)
         SELECT pengaturan.jarak 
         FROM pengaturan 
         INNER JOIN pengguna ON pengguna.penempatan_id = pengaturan.penempatan_id 
-        WHERE pengguna.nik = ?
+        WHERE pengguna.nim = ?
     ");
     
     $stmt->bindParam(1, $userid);

@@ -53,7 +53,7 @@ echo '
     <i class="bi bi-list open"></i>
     <i class="bi bi-x close"></i>
 </div>
-<a href="beranda" style="margin-left:8px;color:black;text-decoration:none">Presensi Magang berbasis Web</a>
+<a href="beranda" style="margin-left:8px;color:black;text-decoration:none">Presensi PKL berbasis Web</a>
 </nav>
 </header>
 </div>

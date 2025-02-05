@@ -87,10 +87,10 @@ $nama_bulan = $nama_bulan_arr[intval(date('m', strtotime($tanggal))) - 1];
 
 /////////////
 
-$query = "SELECT absen.id_absen, absen.nik, pengguna.nama, pengguna.foto_profil, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.foto_absen, absen.latlong 
+$query = "SELECT absen.id_absen, absen.nim, pengguna.nama, pengguna.foto_profil, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.foto_absen, absen.latlong 
           FROM absen 
           JOIN status_absen ON absen.id_status = status_absen.id_status
-          JOIN pengguna ON absen.nik = pengguna.nik
+          JOIN pengguna ON absen.nim = pengguna.nim
           WHERE tanggal_absen = :tanggal
           ORDER BY absen.id_absen DESC";
 $stmt = $conn->prepare($query);

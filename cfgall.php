@@ -5,27 +5,27 @@ require_once('database.php');
 $database = new Database();
 $conn = $database->__construct();
 
-if (!isset($_SESSION['nik'])) {
+if (!isset($_SESSION['nim'])) {
 	header("Location: login");
     exit();
 } else {
 header("Cache-Control: no-cache, must-revalidate");
 
-$userid = $_SESSION['nik'];
+$userid = $_SESSION['nim'];
 
 $current_page = basename($_SERVER['PHP_SELF']);
 
-$sqlUtama = "SELECT id, nik, nama, penempatan_id FROM pengguna WHERE nik = ?";
+$sqlUtama = "SELECT id, nim, nama, universitas, penempatan_id FROM pengguna WHERE nim = ?";
 $stmt = $conn->prepare($sqlUtama);
 $stmt->bindParam(1, $userid);
 $stmt->execute();
 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // join tabel jabatan
-$sql3 = "SELECT pengguna.id, pengguna.nik, pengguna.nama, penempatan.penempatan_nama, pengguna.foto_profil
+$sql3 = "SELECT pengguna.id, pengguna.nim, pengguna.nama, pengguna.universitas, penempatan.penempatan_nama, pengguna.foto_profil
          FROM pengguna
          INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id
-         WHERE nik = ?";
+         WHERE nim = ?";
 $stmt2 = $conn->prepare($sql3);
 $stmt2->bindParam(1, $userid);
 $stmt2->execute();
@@ -35,7 +35,8 @@ $hasiljoin = $joinges[0];
 if (count($result) > 0) {
     foreach ($result as $row) {
         $nama = $row['nama'];
-        $nik = $row['nik'];
+        $nim = $row['nim'];
+        $universitas = $row['universitas'];
         $penempatan = $hasiljoin['penempatan_nama'];
     }
 }
@@ -110,7 +111,7 @@ echo'
 </head>
 
 <body>';
-if (isset($_SESSION['nik'])) {
+if (isset($_SESSION['nim'])) {
 echo'
 <!-- App Sidebar -->
 
@@ -124,7 +125,7 @@ echo'
     <i class="bi bi-list open"></i>
     <i class="bi bi-x close"></i>
 </div>
-<a href="login.php" style="margin-left:8px">Presensi Pemagang Disdukcapil</a>
+<a href="login.php" style="margin-left:8px">Presensi PKL Puskesmas Tlogosari Kulon</a>
 </nav>
 </header>
 </div>
@@ -148,7 +149,7 @@ echo'
     echo'</span>
     </span>
     <span class="opacity" style="font-size:14px">';
-    echo "NIK " . $nik;
+    echo "NIM " . $nim;
     echo'</span>';
 echo'
 </span>

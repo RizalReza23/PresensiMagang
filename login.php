@@ -4,7 +4,7 @@ include_once 'cfgdb.php';
 
 session_start();
 
-if (isset($_SESSION['nik'])) {
+if (isset($_SESSION['nim'])) {
   header("Location: beranda");
   exit();
 }
@@ -12,21 +12,21 @@ if (isset($_SESSION['nik'])) {
 $error_message = '';
 
 if (isset($_POST['login'])) {
-  $nik = $_POST['nik'];
+  $nim = $_POST['nim'];
   $password = $_POST['password'];
   $password_hash = md5($password);
 
-  $sql = "SELECT nik FROM pengguna WHERE nik = ? AND password = ?";
+  $sql = "SELECT nim FROM pengguna WHERE nim = ? AND password = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->execute([$nik, $password_hash]);
+  $stmt->execute([$nim, $password_hash]);
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   if (count($result) == 1) {
-      $_SESSION['nik'] = $result[0]['nik'];
+      $_SESSION['nim'] = $result[0]['nim'];
       header("Location: beranda");
       exit();
   } else {
-      $error_message = 'NIK atau password salah!';
+      $error_message = 'NIM atau password salah!';
   }
 }
 ?>
@@ -39,7 +39,7 @@ if (isset($_POST['login'])) {
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
 
-  <title>SMP dan SMA Pesantren MKGR Kertasemaya</title>
+  <title>Presensi Mahasiswa Praktik Kerja Lapangan</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
@@ -59,7 +59,7 @@ if (isset($_POST['login'])) {
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('./img/1.jpg');
+      background-image: url('./img/puskesmas.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -310,9 +310,9 @@ button:disabled {
       </div>
     <?php endif; ?>
 
-    <label for="nik">NIK</label>
-    <input type="text" placeholder="Nomor Induk Pegawai" id="nik" name="nik">
-    <div id="nikError" class="error"></div>
+    <label for="nim">NIM</label>
+    <input type="text" placeholder="Nomor Induk Mahasiswa" id="nim" name="nim">
+    <div id="ni,Error" class="error"></div>
 
     <label for="password">Password</label>
     <input type="password" placeholder="Kata Sandi" id="password" name="password">
@@ -326,23 +326,13 @@ button:disabled {
 </body>
 
 <script>
-    const nikInput = document.getElementById('nik');
+    const nimInput = document.getElementById('nim');
     const passwordInput = document.getElementById('password');
-    const nikError = document.getElementById('nikError');
+    const nimError = document.getElementById('nimError');
     const passwordError = document.getElementById('passwordError');
     const submitBtn = document.getElementById('submitBtn');
 
-    function validateForm() {
-        const isNikValid = nikInput.value.length === 16 && /^\d+$/.test(nikInput.value);
-        const isPasswordValid = passwordInput.value.length >= 8;
-
-        nikError.textContent = isNikValid ? "" : "NIK belum 16 angka";
-        passwordError.textContent = isPasswordValid ? "" : "Password minimal 8 karakter";
-
-        submitBtn.disabled = !(isNikValid && isPasswordValid);
-    }
-
-    nikInput.addEventListener('input', validateForm);
+    nimInput.addEventListener('input', validateForm);
     passwordInput.addEventListener('input', validateForm);
 
     document.getElementById('loginForm').addEventListener('submit', function(event) {

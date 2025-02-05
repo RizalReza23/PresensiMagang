@@ -2,22 +2,22 @@
 session_start();
 include_once 'cfgall.php';
 
-$nik = "";
+$nim = "";
 $password = "";
 $nama = "";
 $sukses = "";
 $error = "";
 
-$sqldef = "SELECT * FROM pengguna WHERE nik = ?";
+$sqldef = "SELECT * FROM pengguna WHERE nim = ?";
 $stmt1 = $conn->prepare($sqldef);
 $stmt1->execute([$userid]);
 $result1 = $stmt1->fetch(PDO::FETCH_ASSOC);
 
-$nik = $result1['nik'];
+$nim = $result1['nim'];
 $nama = $result1['nama'];
 $penempatan_id = $result1['penempatan_id'];
 
-if ($nik == '') {
+if ($nim == '') {
     $error = "Data tidak ditemukan";
 }
 
@@ -25,7 +25,7 @@ if (isset($_POST['simpan'])) {
     $nama = $_POST['nama'];
 
     if ($nama) {
-        $sqlup = "UPDATE pengguna SET nama=? WHERE nik = ?";
+        $sqlup = "UPDATE pengguna SET nama=? WHERE nim = ?";
         $stmt2 = $conn->prepare($sqlup);
         $stmt2->execute([$nama, $userid]);
         if ($stmt2->rowCount() > 0) {
@@ -56,7 +56,7 @@ if (isset($_FILES['image'])) {
 
         if ($file_size <= $max_file_size) {
             // Memeriksa apakah pengguna sudah memiliki data gambar yang tersimpan di database
-            $sql_check = "SELECT foto_profil FROM pengguna WHERE nik=?";
+            $sql_check = "SELECT foto_profil FROM pengguna WHERE nim=?";
             $stmt_check = $conn->prepare($sql_check);
             $stmt_check->execute([$userid]);
             $result_check = $stmt_check->fetchAll();
@@ -72,12 +72,12 @@ if (isset($_FILES['image'])) {
                 }
             }
 
-            // Membuat nama file baru dengan nilai nik dan uniqid
+            // Membuat nama file baru dengan nilai nim dan uniqid
             $new_filename = $userid . "_" . uniqid() . "." . $file_ext;
 
             move_uploaded_file($tmp_image, "foto_profil/" . $new_filename);
 
-            $sql = "UPDATE pengguna SET foto_profil=? WHERE nik=?";
+            $sql = "UPDATE pengguna SET foto_profil=? WHERE nim=?";
             $stmt = $conn->prepare($sql);
             $stmt->execute([$new_filename, $userid]);
 
@@ -113,12 +113,12 @@ if (isset($_FILES['image'])) {
 
 // untuk ganti password
 if (isset($_POST['submit'])) {
-    $username = $_SESSION['nik'];
+    $username = $_SESSION['nim'];
     $oldpassword = md5($_POST['oldpassword']);
     $newpassword = md5($_POST['newpassword']);
     $confirmpassword = md5($_POST['confirmpassword']);
 
-    $query = "SELECT password FROM pengguna WHERE nik=?";
+    $query = "SELECT password FROM pengguna WHERE nim=?";
     $stmt = $conn->prepare($query);
     $stmt->execute([$username]);
     $result = $stmt->fetchAll();
@@ -129,7 +129,7 @@ if (isset($_POST['submit'])) {
 
         if ($oldpassword == $oldpassword_db) {
             if ($newpassword == $confirmpassword) {
-                $query = "UPDATE pengguna SET password=? WHERE nik=?";
+                $query = "UPDATE pengguna SET password=? WHERE nim=?";
                 $stmt = $conn->prepare($query);
                 $stmt->execute([$newpassword, $username]);
                 $script = "<script>
@@ -176,7 +176,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil | SMP SMA MKGR Kertasemaya</title>
+    <title>Profil | Mahasiswa PKL</title>
     <style>
         .mx-auto {
             max-width: 800px
@@ -207,9 +207,9 @@ if (isset($_POST['submit'])) {
                                     </h4>
                                 </span>
                                 <p class="opacity" style="margin-bottom:0">
-                                    NIK
-                                    <?php echo $nik ?> -
-                                    <?php echo $penempatan ?>
+                                    NIM
+                                    <?php echo $nim ?> -
+                                    <?php echo $universitas ?>
                                 </p>
                             </span>
                         </label>
@@ -258,9 +258,9 @@ if (isset($_POST['submit'])) {
                     ?>
                     <form action="" method="POST">
                         <div class="mb-3 row">
-                            <label for="nik" class="col-sm-2 col-form-label">NIK</label>
+                            <label for="nim" class="col-sm-2 col-form-label">NIM</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="nik" name="nik" value="<?php echo $nik ?>"
+                                <input type="text" class="form-control" id="nim" name="nim" value="<?php echo $nim ?>"
                                     disabled>
                             </div>
                         </div>

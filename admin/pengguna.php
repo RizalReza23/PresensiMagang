@@ -3,7 +3,7 @@ session_start();
 
 include_once 'main-admin.php';
 
-$nik = "";
+$nim = "";
 $password = "";
 $nama = "";
 $penempatan = "";
@@ -30,24 +30,24 @@ if ($op == 'hapus') {
 }
 
 if ($op == 'tambah') {
-    $nik = $_POST['tambahNik'];
+    $nim = $_POST['tambahNim'];
     $nama = $_POST['tambahNama'];
     $password = md5($_POST['tambahPassword']);
     $penempatan = $_POST['tambahPenempatan'];
 
-    $sql_cek_nik = "SELECT * FROM pengguna WHERE nik=:nik";
-    $stmt_cek_nik = $conn->prepare($sql_cek_nik);
-    $stmt_cek_nik->bindParam(':nik', $nik, PDO::PARAM_STR);
-    $stmt_cek_nik->execute();
-    $jml_cek_nik = $stmt_cek_nik->rowCount();
+    $sql_cek_nim = "SELECT * FROM pengguna WHERE nim=:nim";
+    $stmt_cek_nim = $conn->prepare($sql_cek_nim);
+    $stmt_cek_nim->bindParam(':nim', $nim, PDO::PARAM_STR);
+    $stmt_cek_nim->execute();
+    $jml_cek_nim = $stmt_cek_nim->rowCount();
 
-    if ($jml_cek_nik > 0) {
-        $error = "NIK sudah terdaftar!";
+    if ($jml_cek_nim > 0) {
+        $error = "NIM sudah terdaftar!";
     } else {
-        if ($nik && $password && $nama && $penempatan) {
-            $sql1 = "INSERT INTO pengguna (nik, nama, password, penempatan_id) VALUES (:nik, :nama, :password, :penempatan)";
+        if ($nim && $password && $nama && $penempatan) {
+            $sql1 = "INSERT INTO pengguna (nim, nama, password, penempatan_id) VALUES (:nim, :nama, :password, :penempatan)";
             $stmt1 = $conn->prepare($sql1);
-            $stmt1->bindParam(':nik', $nik, PDO::PARAM_STR);
+            $stmt1->bindParam(':nim', $nim, PDO::PARAM_STR);
             $stmt1->bindParam(':nama', $nama, PDO::PARAM_STR);
             $stmt1->bindParam(':password', $password, PDO::PARAM_STR);
             $stmt1->bindParam(':penempatan', $penempatan, PDO::PARAM_INT);
@@ -64,7 +64,7 @@ if ($op == 'tambah') {
 }
 
 if ($op == 'simpan') {
-    $nik = $_POST['editNik'];
+    $nim = $_POST['editNim'];
     $nama = $_POST['editNama'];
     $password = $_POST['editPassword'];
     $penempatan = $_POST['editPenempatan'];
@@ -72,16 +72,16 @@ if ($op == 'simpan') {
     if ($nama && $penempatan) {
         if ($password && trim($password) !== '') {
             $password = md5($password);
-            $sql1 = "UPDATE pengguna SET nama=:nama, password=:password,penempatan_id=:penempatan WHERE nik=:nik";
+            $sql1 = "UPDATE pengguna SET nama=:nama, password=:password,penempatan_id=:penempatan WHERE nim=:nim";
         } else {
             // Jika password kosong atau hanya berisi spasi
-            $sql1 = "UPDATE pengguna SET nama=:nama, penempatan_id=:penempatan WHERE nik=:nik";
+            $sql1 = "UPDATE pengguna SET nama=:nama, penempatan_id=:penempatan WHERE nim=:nim";
         }
 
         $stmt1 = $conn->prepare($sql1);
         $stmt1->bindParam(':nama', $nama, PDO::PARAM_STR);
         $stmt1->bindParam(':penempatan', $penempatan, PDO::PARAM_INT);
-        $stmt1->bindParam(':nik', $nik, PDO::PARAM_STR);
+        $stmt1->bindParam(':nim', $nim, PDO::PARAM_STR);
         if ($password && trim($password) !== '') {
             $stmt1->bindParam(':password', $password, PDO::PARAM_STR);
         }
@@ -151,8 +151,8 @@ if ($sukses) {
                 <div class="modal-body">
                     <form action="?op=simpan" method="POST">
                         <div class="mb-3 d-none">
-                            <label for="editNik" class="form-label">NIK</label>
-                            <input type="text" class="form-control" id="editNik" name="editNik">
+                            <label for="editNim" class="form-label">NIM</label>
+                            <input type="text" class="form-control" id="editNim" name="editNim">
                         </div>
                         <div class="mb-3">
                             <label for="editNama" class="form-label">Nama</label>
@@ -200,8 +200,8 @@ if ($sukses) {
                 <div class="modal-body">
                     <form action="?op=tambah" method="POST">
                         <div class="mb-3">
-                            <label for="tambahNik" class="form-label">NIK</label>
-                            <input type="text" class="form-control" id="tambahNik" name="tambahNik" required>
+                            <label for="tambahNim" class="form-label">NIM</label>
+                            <input type="text" class="form-control" id="tambahNim" name="tambahNim" required>
                         </div>
                         <div class="mb-3">
                             <label for="tambahNama" class="form-label">Nama</label>
@@ -242,7 +242,7 @@ if ($sukses) {
                     <thead>
                         <tr>
                             <!--<th scope="col">No</th>-->
-                            <th scope="col">NIK</th>
+                            <th scope="col">NIM</th>
                             <th scope="col">Foto</th>
                             <th scope="col">Nama</th>
                             <th scope="col">Penempatan</th>
@@ -251,10 +251,10 @@ if ($sukses) {
                     </thead>
                     <tbody>
                         <?php
-                        $sql2 = "SELECT pengguna.id, pengguna.nik, pengguna.nama, pengguna.foto_profil, pengguna.password, penempatan.penempatan_id, penempatan.penempatan_nama
+                        $sql2 = "SELECT pengguna.id, pengguna.nim, pengguna.nama, pengguna.foto_profil, pengguna.password, penempatan.penempatan_id, penempatan.penempatan_nama
                         FROM pengguna
                         INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id
-                        ORDER BY pengguna.nik ASC";
+                        ORDER BY pengguna.nim ASC";
 
                         $stmt = $conn->prepare($sql2);
                         $stmt->execute();
@@ -262,7 +262,7 @@ if ($sukses) {
 
                         while ($r2 = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             $id = $r2['id'];
-                            $nik = $r2['nik'];
+                            $nim = $r2['nim'];
                             $nama = $r2['nama'];
                             if ($r2['foto_profil'] == NULL) {
                                 $nama_file = "default.png";
@@ -284,7 +284,7 @@ if ($sukses) {
                                 </th>-->
                                 <td scope="row">
                                     <b>
-                                        <?php echo $nik ?>
+                                        <?php echo $nim ?>
                                     </b>
                                 </td>
                                 <td scope="row">
@@ -299,7 +299,7 @@ if ($sukses) {
                                 </td>
                                 <td scope="row">
                                     <a id="iniEditModal" data-bs-toggle="modal" data-bs-target="#editModal"
-                                        data-id="<?php echo $id ?>" data-nik="<?php echo $nik ?>"
+                                        data-id="<?php echo $id ?>" data-nim="<?php echo $nim ?>"
                                         data-nama="<?php echo $nama ?>" data-password="<?php echo $password ?>" data-penempatan="<?php echo $id_penempatan ?>">
                                         <button type="button" class="btn btn-warning btn-sm">Edit</button>
                                     </a>
@@ -353,13 +353,13 @@ if ($sukses) {
         editButtons.forEach(function (button) {
             button.addEventListener('click', function () {
                 var id = this.getAttribute('data-id');
-                var nik = this.getAttribute('data-nik');
+                var nim = this.getAttribute('data-nim');
                 var nama = this.getAttribute('data-nama');
                 var password = this.getAttribute('data-password');
                 var penempatan = this.getAttribute('data-penempatan');
 
                 document.getElementById('editId').value = id;
-                document.getElementById('editNik').value = nik;
+                document.getElementById('editNim').value = nim;
                 document.getElementById('editNama').value = nama;
                 document.getElementById('editPassword').value = password;
 

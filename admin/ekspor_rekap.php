@@ -10,11 +10,11 @@ if (!isset($_SESSION['username'])) {
 
 // Ambil data pengguna sesuai dengan parameter
 $userid = '';
-if (isset($_GET['nik'])) {
-    $userid = $_GET['nik'];
+if (isset($_GET['nim'])) {
+    $userid = $_GET['nim'];
 }
 
-$stmt = $conn->prepare("SELECT pengguna.nama, penempatan.penempatan_nama FROM pengguna INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id WHERE nik = :userid");
+$stmt = $conn->prepare("SELECT pengguna.nama, penempatan.penempatan_nama FROM pengguna INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id WHERE nim = :userid");
 $stmt->bindParam(':userid', $userid);
 $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -110,11 +110,11 @@ for ($i = 1; $i <= $jumlah_hari; $i++) {
     // ambil nama bulan dalam bahasa Indonesia
     $nama_bulan = $nama_bulan_arr[intval($bulan) - 1];
 
-    // ambil data absen dari database berdasarkan tanggal dan nik
-    $query = "SELECT absen.id_absen, absen.nik, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.logbook 
+    // ambil data absen dari database berdasarkan tanggal dan nim
+    $query = "SELECT absen.id_absen, absen.nim, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.logbook 
     FROM absen 
     JOIN status_absen ON absen.id_status = status_absen.id_status 
-    WHERE nik = ? AND tanggal_absen = ?
+    WHERE nim = ? AND tanggal_absen = ?
     ORDER BY absen.id_absen DESC";
     
     $stmt = $conn->prepare($query);

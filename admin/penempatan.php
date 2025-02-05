@@ -176,7 +176,7 @@ if ($sukses) {
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">ID Penempatan</th>
+                            <th scope="col">No Penempatan</th>
                             <th scope="col">Nama Penempatan</th>
                             <th scope="col">Aksi</th>
                         </tr>
@@ -195,7 +195,7 @@ if ($sukses) {
                             ?>
                             <tr>
                                 <td scope="row">
-                                    <?php echo $penempatan_id ?>
+                                    <?php echo $urut++ ?>
                                 </td>
                                 <td scope="row">
                                     <?php echo $penempatan_nama ?>

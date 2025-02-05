@@ -9,9 +9,9 @@
     <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <title>Disdukcapil Kota Semarang</title>
-    <meta name="description" content="Disdukcapil Kota Semarang">
-    <meta name="keywords" content="Disdukcapil Kota Semarang">
+    <title>Puskesmas Tlogosari Kulon</title>
+    <meta name="description" content="Puskesmas Tlogosari Kulon">
+    <meta name="keywords" content="Puskesmas Tlogosari Kulon">
 </head>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
@@ -239,7 +239,7 @@ svg{width:24px;height:24px; fill:#000} svg.line, svg .line{fill:none; stroke:cur
     <header class="l-header">
         <nav class="nav bd-grid">
             <div>
-                <a href="#" class="nav__logo" id="inilogo">Presensi Magang</a>
+                <a href="#" class="nav__logo" id="inilogo">Presensi PKL</a>
             </div>
 
             <div class="nav__menu" id="nav-menu">
@@ -262,9 +262,9 @@ svg{width:24px;height:24px; fill:#000} svg.line, svg .line{fill:none; stroke:cur
 
                 <div class="homeL">
                     <div class="slogan">
-                        <h1 class="t">Presensi Magang<br>Berbasis Web</h1>
-                        <p>Sistem presensi Magang berbasis web memungkinkan para pemagang untuk melakukan absensi dengan cepat
-                            dan mudah di <b>Disdukcapil Kota Semarang</b>.</p>
+                        <h1 class="t">Presensi PKL<br>Berbasis Web</h1>
+                        <p>Sistem presensi PKL berbasis web memungkinkan para mahasiswa untuk melakukan absensi dengan cepat
+                            dan mudah di <b>Puskesmas Tlogosari Kulon</b>.</p>
                     </div>
                     <div class="action">
                         <div class="link">
@@ -278,9 +278,9 @@ svg{width:24px;height:24px; fill:#000} svg.line, svg .line{fill:none; stroke:cur
                 </div>
 
                 <div class="homeR">
-                    <img alt="Pics" src="img/PAMAS.png">
-                    <img alt="Pics" src="img/PAMAS.png">
-                    <img alt="Pics" src="img/PAMAS.png">
+                    <img alt="Pics" src="img/LogoPKL.png">
+                    <img alt="Pics" src="img/LogoPKL.png">
+                    <img alt="Pics" src="img/LogoPKL.png">
                 </div>
 
             </div>
@@ -288,7 +288,7 @@ svg{width:24px;height:24px; fill:#000} svg.line, svg .line{fill:none; stroke:cur
     </main>
 
     <footer class="footer">
-        <p class="footer__title">Presensi Magang dengan Deteksi Lokasi & Selfie Absensi</p>
+        <p class="footer__title">Presensi PKL dengan Deteksi Lokasi & Selfie Absensi</p>
         <p class="footer__copy">&#169; 2023 - All rights reserved</p>
     </footer>
 

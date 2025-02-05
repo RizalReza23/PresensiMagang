@@ -7,7 +7,7 @@ function getLogbook($conn, $userid)
     $stmt = $conn->prepare("
         SELECT absen.logbook 
         FROM absen  
-        WHERE absen.nik = ? AND logbook IS NOT NULL
+        WHERE absen.nim = ? AND logbook IS NOT NULL
     ");
     
     $stmt->bindParam(1, $userid);

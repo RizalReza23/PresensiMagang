@@ -77,9 +77,9 @@ include_once 'cfgall.php';
                                     </h4>
                                 </span>
                                 <p class="opacity" style="margin-bottom:0">
-                                    NIK
-                                    <?php echo $nik ?> -
-                                    <?php echo $penempatan ?>
+                                    NIM
+                                    <?php echo $nim ?> -
+                                    <?php echo $universitas ?>
                                 </p>
                             </span>
                         </label>
@@ -119,7 +119,7 @@ include_once 'cfgall.php';
                 // buat array kosong untuk absen
                 $absen = array();
 
-                $sql = "SELECT tanggal_absen, nik, keterangan FROM absen WHERE YEAR(tanggal_absen) = ? AND MONTH(tanggal_absen) = ?";
+                $sql = "SELECT tanggal_absen, nim, keterangan FROM absen WHERE YEAR(tanggal_absen) = ? AND MONTH(tanggal_absen) = ?";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(1, $tahun);
                 $stmt->bindParam(2, $bulan);
@@ -131,7 +131,7 @@ include_once 'cfgall.php';
                 if ($result) {
                     foreach ($result as $row) {
                         $tanggal = date('j', strtotime($row['tanggal_absen']));
-                        $absen[$row['nik']][$tanggal] = $row['keterangan'];
+                        $absen[$row['nim']][$tanggal] = $row['keterangan'];
                     }
                 }
 
@@ -171,7 +171,7 @@ include_once 'cfgall.php';
                             <tr style="text-align:center">
                                 <th width="150">Tanggal</th>
                                 <th>Jam Masuk</th>
-                                <th>Jam Keluar</th>
+                                <th>Jam Pulang</th>
                                 <th>Status</th>
                                 <th>Logbook</th>
                                 <th width="180">Keterangan</th>
@@ -210,10 +210,10 @@ include_once 'cfgall.php';
                                 echo '<tr class="' . $bg_color . '">';
                                 echo '<td>' . $nama_hari . ', ' . str_pad($i, 2, '0', STR_PAD_LEFT) . ' ' . $nama_bulan . ' ' . $tahun . '</td>';
 
-                                $query = "SELECT absen.id_absen, absen.nik, absen.id_status, status_absen.nama_status, absen.logbook, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.foto_absen, absen.latlong 
+                                $query = "SELECT absen.id_absen, absen.nim, absen.id_status, status_absen.nama_status, absen.logbook, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.foto_absen, absen.latlong 
           FROM absen 
           JOIN status_absen ON absen.id_status = status_absen.id_status 
-          WHERE nik = ? AND tanggal_absen = ?
+          WHERE nim = ? AND tanggal_absen = ?
           ORDER BY absen.id_absen DESC";
 
                                 $tanggal_absen = $tahun . '-' . $bulan . '-' . str_pad($i, 2, '0', STR_PAD_LEFT);

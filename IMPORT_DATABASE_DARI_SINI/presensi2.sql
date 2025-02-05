@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 11, 2024 at 04:44 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Feb 05, 2025 at 03:32 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 8.0.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `absen` (
   `id_absen` int(11) NOT NULL,
-  `nik` varchar(16) NOT NULL,
+  `nim` varchar(250) NOT NULL,
   `id_status` int(11) DEFAULT NULL,
   `id_jadwal` int(11) DEFAULT NULL,
   `tanggal_absen` date DEFAULT NULL,
@@ -40,7 +40,16 @@ CREATE TABLE `absen` (
   `logbook` varchar(255) DEFAULT NULL,
   `foto_absen` varchar(255) DEFAULT NULL,
   `latlong` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `absen`
+--
+
+INSERT INTO `absen` (`id_absen`, `nim`, `id_status`, `id_jadwal`, `tanggal_absen`, `jam_masuk`, `tgl_keluar`, `jam_keluar`, `keterangan`, `logbook`, `foto_absen`, `latlong`) VALUES
+(376, 'A11.2021.13881', 1, 3, '2025-01-22', '21:06:05', '2025-01-22', '21:06:19', 'Jarak 7006 meter dari kantor, TERLAMBAT 13 jam 7 menit', 'Sudah selesai', 'A11.2021.13881_2025-01-22.png', '-7.0298617, 110.4969732'),
+(377, 'A11.2021.13881', 1, 1, '2025-02-03', '21:55:29', '2025-02-03', '21:55:37', 'Jarak 6166 meter dari kantor, TERLAMBAT 13 jam 56 menit', NULL, 'A11.2021.13881_2025-02-03.png', '-6.9730304, 110.4019456'),
+(378, 'A11.2021.13881', 1, 2, '2025-02-04', '10:18:08', '2025-02-04', '10:18:39', 'Jarak 4157 meter dari kantor, TERLAMBAT 2 jam 19 menit', 'posyandu', 'A11.2021.13881_2025-02-04.png', '-6.9926912, 110.4216064');
 
 -- --------------------------------------------------------
 
@@ -53,7 +62,7 @@ CREATE TABLE `admin` (
   `username` varchar(30) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nama` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `admin`
@@ -74,17 +83,17 @@ CREATE TABLE `jadwal` (
   `waktu_masuk` time NOT NULL,
   `waktu_pulang` time NOT NULL,
   `status` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `jadwal`
 --
 
 INSERT INTO `jadwal` (`id_jadwal`, `nama_hari`, `waktu_masuk`, `waktu_pulang`, `status`) VALUES
-(1, 'Senin', '08:00:00', '16:00:00', 'Aktif'),
-(2, 'Selasa', '08:00:00', '16:00:00', 'Aktif'),
-(3, 'Rabu', '08:00:00', '16:00:00', 'Aktif'),
-(4, 'Kamis', '08:00:00', '16:00:00', 'Aktif'),
+(1, 'Senin', '07:00:00', '14:00:00', 'Aktif'),
+(2, 'Selasa', '07:00:00', '14:00:00', 'Aktif'),
+(3, 'Rabu', '07:00:00', '14:00:00', 'Aktif'),
+(4, 'Kamis', '07:00:00', '14:00:00', 'Aktif'),
 (5, 'Jumat', '07:30:00', '14:00:00', 'Aktif'),
 (6, 'Sabtu', '00:00:00', '00:00:00', 'Aktif'),
 (7, 'Minggu', '00:00:00', '00:00:00', 'Aktif');
@@ -102,30 +111,15 @@ CREATE TABLE `penempatan` (
   `latitude` varchar(30) NOT NULL,
   `longitude` varchar(30) NOT NULL,
   `link` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `penempatan`
 --
 
 INSERT INTO `penempatan` (`penempatan_id`, `penempatan_nama`, `alamat`, `latitude`, `longitude`, `link`) VALUES
-(1, 'Gayamsari', 'JL. Brigjen. Slamet Riyadi, No. 3,  Gayamsari, Kota Semarang, Jawa Tengah 50512, Indonesia', '-6.998499963090052', '110.45005596164846', 'https://maps.app.goo.gl/SS6BjJFLcZtpYWDG9'),
-(2, 'Pedurungan', 'Jl. Brigjen Sudiarto 50246 Semarang Jawa Tengah', '-7.009210', '110.464752', 'https://maps.app.goo.gl/1azmZ2Xi3dy6XK8LA'),
-(3, 'Genuk', 'Jl. Dong Biru No. 12 Kelurahan Genuksari Kecamatan Genuk Kota Semarang Jawa Tengah 50117', '-6.96543801276143', '110.477028271164', 'https://maps.app.goo.gl/5cRBKYvyFwyZ8H2w5'),
-(4, 'Semarang Selatan', 'Jl. Durian I No.14, Lamper Kidul, Semarang Sel., Kota Semarang, Jawa Tengah 50249', '-7.008171989273294', '110.43978080988522', 'https://maps.app.goo.gl/uYYsBn2t4hncoR1V9'),
-(5, 'Semarang Barat', 'Jl. Ronggolawe Baru. Gisikdrono Semarang Kota Semarang, Jawa Tengah 50149', '-6.982333', '110.389250', 'https://maps.app.goo.gl/K3Jdo4R4tKpmmZdj6'),
-(6, 'Semarang Utara', 'Jl. Taman Brotojoyo No.2, Panggung Kidul, Semarang Utara, Kota Semarang, Jawa Tengah 50178', '-6.965528', '110.407139', 'https://maps.app.goo.gl/C8ZWSMEVGdjdQf347'),
-(7, 'Semarang Timur', 'Jl. Krakatau VIII, Karangtempel, Semarang Tim., Kota Semarang, Jawa Tengah 50232', '-6.989428579569249', '110.43745804119327', 'https://maps.app.goo.gl/wTQqtKyQHsCFWcqx8'),
-(8, 'Gajah Mungkur', 'Jl. S. Parman Semarang', '-7.004281480640262', '110.40892112870911', 'https://maps.app.goo.gl/aVr3u7BMYLWwNt8L9'),
-(9, 'Candisari', 'Jl. Kesatrian No.18, Jatingaleh, Kec. Candisari, Kota Semarang, Jawa Tengah 50254', '-7.026685975772222', '110.42790653607993', 'https://maps.app.goo.gl/53TQbDe17a1hF6SZ7'),
-(10, 'Banyumanik', 'Jalan Ngesrep Timur V Semarang', '-7.052722', '110.428639', 'https://maps.app.goo.gl/8ybsHe9vwXwHgJoAA'),
-(11, 'Gunung Pati', 'JL. MR Wuyanto No.33, Gunungpati, Gunung Pati, Sumurrejo, Semarang, Kota Semarang, Jawa Tengah 50226', '-7.10367377253785', '110.38687282676845', 'https://maps.app.goo.gl/QFyo5FykYr6GzmPq6'),
-(12, 'Ngaliyan', 'JL. Prof Hamka No.233 Semarang', '-6.9973550', '110.3474640', 'https://maps.app.goo.gl/r5GKfNptGwAD2EzcA'),
-(13, 'Mijen', 'Jalan Raya Semarang – Boja W895+9QM Tambangan, Kota Semarang, Jawa Tengah', '-7.0815278', '110.3094167', 'https://maps.app.goo.gl/4cuiVHUAcRto9KJf8'),
-(14, 'Tugu', 'Jl. Walisongo No.KM 10, Tugurejo, Kec. Tugu, Kota Semarang, Jawa Tengah 50182', '-6.9857778', '110.3450556', 'https://maps.app.goo.gl/3tQ2UW2yKHbbVuFX6'),
-(15, 'Tembalang', 'Jalan Imam Suparto ‎Semarang WCRW+5V5, Bulusan, Kec. Tembalang, Kota Semarang, Jawa Tengah 50277', '-7.0596111', '110.4470833', 'https://maps.app.goo.gl/tb3tsETrEYJrE1mY9'),
-(16, 'Semarang Tengah', 'Jalan Taman Seteran Barat No.1, Miroto, Semarang Tengah, Kota Semarang, Jawa Tengah 50134, Indonesia', '-7.0527222', '110.4286389', 'https://maps.app.goo.gl/GdUoR6TmvPrCC1rQ9'),
-(18, 'tes', 'tes', '-6.990603035421752', '110.44500235944727', 'https://maps.app.goo.gl/NR6gC3UhzLa7RV9X6');
+(18, 'Udinus', 'Jl. Imam Bonjol No.207, Pendrikan Kidul, Kec. Semarang Tengah, Kota Semarang, Jawa Tengah 50131', '-6.9826794', '110.4090606', 'https://maps.app.goo.gl/d3PnXf6dD6ywFTQb8'),
+(20, 'Puskesmas Tlogosari Kulon', 'Jl. Taman Satrio Manah No.2, Tlogosari Kulon, Kec. Pedurungan, Kota Semarang, Jawa Tengah 50196', '-6.980688108362258', '110.45728062412445', 'https://maps.app.goo.gl/DFZRPcRNuWYXdztQ9');
 
 -- --------------------------------------------------------
 
@@ -139,7 +133,7 @@ CREATE TABLE `pengaturan` (
   `batas_telat` int(11) NOT NULL,
   `jarak` int(11) NOT NULL,
   `fitur_foto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pengaturan`
@@ -163,7 +157,8 @@ INSERT INTO `pengaturan` (`id_pengaturan`, `penempatan_id`, `batas_telat`, `jara
 (24, 15, 30, 2, 1),
 (25, 16, 30, 2, 1),
 (26, 17, 30, 2, 1),
-(27, 18, 30, 500, 1);
+(27, 18, 30, 500, 1),
+(28, 20, 30, 20000, 1);
 
 -- --------------------------------------------------------
 
@@ -173,19 +168,21 @@ INSERT INTO `pengaturan` (`id_pengaturan`, `penempatan_id`, `batas_telat`, `jara
 
 CREATE TABLE `pengguna` (
   `id` int(11) NOT NULL,
-  `nik` varchar(16) NOT NULL,
+  `nim` varchar(250) NOT NULL,
   `nama` varchar(30) NOT NULL,
+  `universitas` varchar(250) NOT NULL,
   `password` varchar(255) NOT NULL,
   `penempatan_id` int(11) NOT NULL,
   `foto_profil` varchar(225) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `pengguna`
 --
 
-INSERT INTO `pengguna` (`id`, `nik`, `nama`, `password`, `penempatan_id`, `foto_profil`) VALUES
-(58, '3374041406030001', 'Rahmanda Afridiansyah', '25d55ad283aa400af464c76d713c07ad', 1, '3374041406030001_66d359cfad333.png');
+INSERT INTO `pengguna` (`id`, `nim`, `nama`, `universitas`, `password`, `penempatan_id`, `foto_profil`) VALUES
+(66, 'A11.2021.13831', 'Rama', 'Udinus', '25d55ad283aa400af464c76d713c07ad', 20, NULL),
+(67, 'A11.2021.13881', 'Rizal', 'Universitas Dian Nuswantoro', '25d55ad283aa400af464c76d713c07ad', 20, NULL);
 
 -- --------------------------------------------------------
 
@@ -196,7 +193,7 @@ INSERT INTO `pengguna` (`id`, `nik`, `nama`, `password`, `penempatan_id`, `foto_
 CREATE TABLE `status_absen` (
   `id_status` int(11) NOT NULL,
   `nama_status` varchar(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `status_absen`
@@ -219,7 +216,7 @@ ALTER TABLE `absen`
   ADD PRIMARY KEY (`id_absen`),
   ADD KEY `id_jadwal` (`id_jadwal`),
   ADD KEY `id_status` (`id_status`),
-  ADD KEY `nik` (`nik`) USING BTREE;
+  ADD KEY `nik` (`nim`) USING BTREE;
 
 --
 -- Indexes for table `admin`
@@ -251,7 +248,7 @@ ALTER TABLE `pengaturan`
 --
 ALTER TABLE `pengguna`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nik` (`nik`) USING BTREE,
+  ADD UNIQUE KEY `nik` (`nim`) USING BTREE,
   ADD KEY `penempatan_id` (`penempatan_id`);
 
 --
@@ -268,7 +265,7 @@ ALTER TABLE `status_absen`
 -- AUTO_INCREMENT for table `absen`
 --
 ALTER TABLE `absen`
-  MODIFY `id_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=374;
+  MODIFY `id_absen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=379;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -286,19 +283,19 @@ ALTER TABLE `jadwal`
 -- AUTO_INCREMENT for table `penempatan`
 --
 ALTER TABLE `penempatan`
-  MODIFY `penempatan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `penempatan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `pengaturan`
 --
 ALTER TABLE `pengaturan`
-  MODIFY `id_pengaturan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_pengaturan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `status_absen`

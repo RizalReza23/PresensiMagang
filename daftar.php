@@ -4,20 +4,21 @@ include_once 'cfgdb.php';
 
 session_start();
 
-if (isset($_SESSION['nik'])) {
+if (isset($_SESSION['nim'])) {
   header("Location: beranda");
   exit();
 }
 
-$nik = "";
+$nim = "";
 $password = "";
 $nama = "";
+$universitas = "";
 $penempatan = "";
 $sukses = "";
 $error = "";
 $error_message = '';
 
-$ambil = "SELECT pengguna.id, pengguna.nik, pengguna.nama, penempatan.penempatan_nama
+$ambil = "SELECT pengguna.id, pengguna.nim, pengguna.nama, pengguna.universitas, penempatan.penempatan_nama
           FROM pengguna
           INNER JOIN penempatan ON pengguna.penempatan_id = penempatan.penempatan_id
           ORDER BY pengguna.id DESC";
@@ -27,30 +28,32 @@ $hasil = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($hasil as $r2) {
     $id = $r2['id'];
-    $nik = $r2['nik'];
+    $nim = $r2['nim'];
     $nama = $r2['nama'];
+    $universitas = $r2['universitas'];
     $penempatan = $r2['penempatan_nama'];
 }
 
 if (isset($_POST['daftar'])) {
-    $nik = $_POST['nik'];
+    $nim = $_POST['nim'];
     $password = md5($_POST['password']);
     $nama = $_POST['nama'];
+    $universitas = $_POST['universitas'];
     $penempatan = $_POST['penempatan_id'];
 
     // Cek apakah NIP sudah terdaftar dalam database
-    $sql_cek_nik = "SELECT * FROM pengguna WHERE nik=?";
-    $stmt_cek_nik = $conn->prepare($sql_cek_nik);
-    $stmt_cek_nik->execute([$nik]);
-    $jml_cek_nik = $stmt_cek_nik->rowCount();
+    $sql_cek_nim = "SELECT * FROM pengguna WHERE nim=?";
+    $stmt_cek_nim = $conn->prepare($sql_cek_nim);
+    $stmt_cek_nim->execute([$nim]);
+    $jml_cek_nim = $stmt_cek_nim->rowCount();
 
-    if ($jml_cek_nik > 0) {
-        $error = "Mohon maaf, NIK sudah terdaftar!";
+    if ($jml_cek_nim > 0) {
+        $error = "Mohon maaf, NIM sudah terdaftar!";
     } else {
-        if ($nik && $password && $nama && $penempatan) {
-            $sql1 = "INSERT INTO pengguna (nik, nama, password, penempatan_id) VALUES (?, ?, ?, ?)";
+        if ($nim && $password && $nama && $universitas && $penempatan) {
+            $sql1 = "INSERT INTO pengguna (nim, nama, password, universitas, penempatan_id) VALUES (?, ?, ?, ?, ?)";
             $stmt1 = $conn->prepare($sql1);
-            $stmt1->execute([$nik, $nama, $password, $penempatan]);
+            $stmt1->execute([$nim, $nama, $password, $universitas, $penempatan]);
             $sukses = "Berhasil daftar akun!";
         } else {
             $error = "Silakan masukkan semua data!";
@@ -66,7 +69,7 @@ if (isset($_POST['daftar'])) {
   <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
 
-  <title>Absensi Magang Disdukcapil</title>
+  <title>Absensi Magang Puskesmas Tlogosari Kulon</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
@@ -86,7 +89,7 @@ if (isset($_POST['daftar'])) {
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('./img/2.jpg');
+      background-image: url('./img/pendaftaran.png');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -379,9 +382,9 @@ if (isset($_POST['daftar'])) {
     }
     ?>
 
-    <label for="nik">NIK</label>
-    <input type="text" placeholder="Nomor Induk Pegawai" id="nik" name="nik">
-    <div id="nikError" class="error"></div>
+    <label for="nim">NIM</label>
+    <input type="text" placeholder="Nomor Induk Mahasiswa" id="nim" name="nim">
+    <div id="nimError" class="error"></div>
 
     <label for="password">Password</label>
     <input type="password" placeholder="Kata Sandi" id="password" name="password">
@@ -389,6 +392,9 @@ if (isset($_POST['daftar'])) {
 
     <label for="nama">Nama</label>
     <input type="text" placeholder="Nama Lengkap" id="nama" name="nama">
+
+    <label for="universitas">Universitas</label>
+    <input type="text" placeholder="Universitas" id="universitas" name="universitas">
 
     </div>
     <?php
@@ -419,23 +425,13 @@ if (isset($_POST['daftar'])) {
 </body>
 
 <script>
-    const nikInput = document.getElementById('nik');
+    const nimInput = document.getElementById('nim');
     const passwordInput = document.getElementById('password');
-    const nikError = document.getElementById('nikError');
+    const nimError = document.getElementById('nimError');
     const passwordError = document.getElementById('passwordError');
     const submitBtn = document.getElementById('submitBtn');
 
-    function validateForm() {
-        const isNikValid = nikInput.value.length === 16 && /^\d+$/.test(nikInput.value);
-        const isPasswordValid = passwordInput.value.length >= 8;
-
-        nikError.textContent = isNikValid ? "" : "NIK belum 16 angka";
-        passwordError.textContent = isPasswordValid ? "" : "Password minimal 8 karakter";
-
-        submitBtn.disabled = !(isNikValid && isPasswordValid);
-    }
-
-    nikInput.addEventListener('input', validateForm);
+    nimInput.addEventListener('input', validateForm);
     passwordInput.addEventListener('input', validateForm);
 
     document.getElementById('form-login').addEventListener('submit', function(event) {

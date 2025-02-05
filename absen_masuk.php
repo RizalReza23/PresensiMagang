@@ -74,7 +74,7 @@ function getJarakIdeal($conn, $userid)
         SELECT pengaturan.jarak 
         FROM pengaturan
         INNER JOIN pengguna ON pengguna.penempatan_id = pengaturan.penempatan_id
-        WHERE pengguna.nik = ?
+        WHERE pengguna.nim = ?
     ";
 
     $stmt = $conn->prepare($sql);
@@ -94,7 +94,7 @@ function getBatasTelat($conn, $userid)
         SELECT pengaturan.batas_telat 
         FROM pengaturan
         INNER JOIN pengguna ON pengguna.penempatan_id = pengaturan.penempatan_id
-        WHERE pengguna.nik = ?
+        WHERE pengguna.nim = ?
     ";
 
     $stmt = $conn->prepare($sql);
@@ -114,7 +114,7 @@ function getFiturFoto($conn, $userid)
         SELECT pengaturan.fitur_foto 
         FROM pengaturan
         INNER JOIN pengguna ON pengguna.penempatan_id = pengaturan.penempatan_id
-        WHERE pengguna.nik = ?
+        WHERE pengguna.nim = ?
     ";
 
     $stmt = $conn->prepare($sql);

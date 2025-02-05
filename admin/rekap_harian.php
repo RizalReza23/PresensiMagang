@@ -191,7 +191,7 @@ if ($sukses) {
                         <table class="table table-bordered">
                             <thead>
                                 <tr style="text-align:center">
-                                    <th>NIK</th>
+                                    <th>NIM</th>
                                     <th>Nama</th>
                                     <th>Jam Masuk</th>
                                     <th>Jam Keluar</th>
@@ -207,10 +207,10 @@ if ($sukses) {
                                 <?php
                                 $bg_color = ($nama_hari == 'Minggu') ? 'bg-warning' : '';
 
-                                $query = "SELECT absen.id_absen, absen.nik, pengguna.nama, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.logbook, absen.foto_absen, absen.latlong 
+                                $query = "SELECT absen.id_absen, absen.nim, pengguna.nama, absen.id_status, status_absen.nama_status, absen.tanggal_absen, absen.jam_masuk, absen.jam_keluar, absen.keterangan, absen.logbook, absen.foto_absen, absen.latlong 
     FROM absen 
     JOIN status_absen ON absen.id_status = status_absen.id_status
-    JOIN pengguna ON absen.nik = pengguna.nik
+    JOIN pengguna ON absen.nim = pengguna.nim
     WHERE tanggal_absen = :tanggal
     ORDER BY absen.jam_masuk DESC";
 
@@ -221,7 +221,7 @@ if ($sukses) {
                                 if ($stmt->rowCount() > 0) {
                                     while ($data_absen = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         $id = $data_absen['id_absen'];
-                                        $nik = $data_absen['nik'];
+                                        $nim = $data_absen['nim'];
                                         $nama = $data_absen['nama'];
                                         $jam_masuk = $data_absen['jam_masuk'];
                                         $jam_keluar = $data_absen['jam_keluar'];
@@ -234,7 +234,7 @@ if ($sukses) {
                                         ?>
                                         <tr class="<?php echo $bg_color; ?>">
                                             <td>
-                                                <?php echo $nik; ?>
+                                                <?php echo $nim; ?>
                                             </td>
                                             <td>
                                                 <?php echo $nama; ?>
@@ -282,7 +282,7 @@ if ($sukses) {
                                         <?php
                                     }
                                 } else {
-                                    $nik = '';
+                                    $nim = '';
                                     $nama = '';
                                     $jam_masuk = '';
                                     $jam_keluar = '';
@@ -302,7 +302,7 @@ if ($sukses) {
                                     ?>
                                     <tr class="<?php echo $bg_color; ?>">
                                         <td>
-                                            <?php echo $nik; ?>
+                                            <?php echo $nim; ?>
                                         </td>
                                         <td>
                                             <?php echo $nama; ?>

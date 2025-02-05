@@ -8,7 +8,7 @@ if (isset($_POST['userid']) && isset($_POST['logbook'])) {
     $logbook_input = $_POST['logbook'];
 
     // Cek apakah pengguna sudah absen masuk tapi belum absen keluar
-    $sql = "SELECT * FROM absen WHERE nik = :userid AND jam_masuk IS NOT NULL AND jam_keluar IS NULL";
+    $sql = "SELECT * FROM absen WHERE nim = :userid AND jam_masuk IS NOT NULL AND jam_keluar IS NULL";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':userid', $userid);
     $stmt->execute();
@@ -47,7 +47,7 @@ if (isset($_POST['userid']) && isset($_POST['logbook'])) {
                 ';
             } else {
                 // Logbook belum diisi, bisa diisi sekarang
-                $sql = "UPDATE absen SET logbook = :logbook WHERE nik = :userid AND jam_keluar IS NULL";
+                $sql = "UPDATE absen SET logbook = :logbook WHERE nim = :userid AND jam_keluar IS NULL";
                 $stmt = $conn->prepare($sql);
                 $stmt->bindParam(':logbook', $logbook_input);
                 $stmt->bindParam(':userid', $userid);
